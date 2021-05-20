@@ -26,7 +26,7 @@ const numberOfSections = docSections.length;
  * Start Helper Functions
  * 
 */
-function isInViewport(element) { //checks if an element is close to the top of the page
+function inViewport(element) { //checks if an element is close to the top of the page
     const rect = element.getBoundingClientRect();
     return (
         rect.top >= 0 &&
@@ -34,10 +34,10 @@ function isInViewport(element) { //checks if an element is close to the top of t
     );
 }
 
-function findActiveElement(){ //checks for the element closest to the top of the page
+function findActiveElements(){ //checks for the element closest to the top of the page
     window.addEventListener('scroll', function() {
         for(let section of docSections){
-            if(isInViewport(section)){
+            if(inViewport(section)){
                 section.className = "your-active-class"; //sets class as active
                 break;
             }
@@ -47,7 +47,7 @@ function findActiveElement(){ //checks for the element closest to the top of the
     });
 }
 
-function scrollTO(elementName){
+function scrollTOSection(elementName){
     navbar.addEventListener('click', function(event){
         const clickedItem = document.querySelector(`[data-nav = "${event.target.textContent}"]`);
         if(clickedItem !== null)
@@ -94,6 +94,6 @@ function main() {
 // Build menu 
 main();
 // Scroll to section on link click
-scrollTO();
+scrollTOSection();
 // Set sections as active
-findActiveElement();
+findActiveElements();
