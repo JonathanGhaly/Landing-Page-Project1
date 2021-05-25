@@ -18,7 +18,7 @@
  * 
 */
 const docSections = document.getElementsByTagName('section');
-var navbar = document.createElement('ul');
+let navbar = document.createElement('ul');
 const numberOfSections = docSections.length;
 
 /**
@@ -26,27 +26,28 @@ const numberOfSections = docSections.length;
  * Start Helper Functions
  * 
 */
-function inViewport(element) { //checks if an element is close to the top of the page
-    const rect = element.getBoundingClientRect();
-    return (
-        rect.top >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight)
-    );
+function isElementInViewport(el) {
+    let rect = el.getBoundingClientRect();
+    return rect.bottom > 40 &&
+        rect.top < (window.innerHeight || document.documentElement.clientHeight);
 }
-
-function findActiveElements(){ //checks for the element closest to the top of the page
+function findActiveElement(){ //checks for the element closest to the top of the page
     window.addEventListener('scroll', function() {
-        for(let section of docSections){
-            if(inViewport(section)){
-                section.className = "your-active-class"; //sets class as active
+        for(let i = 0 ; i < numberOfSections ; i++ ){
+            if(isElementInViewport(docSections[i])){
+                docSections[i].className = "your-active-class"; //sets class as active
+                for(let j = 0 ; j < numberOfSections ; j++ ){
+                    if(j!=i){
+                      docSections[j].classList.remove('your-active-class');
+                    }
+                }
                 break;
             }
             else
-                section.classList.remove('your-active-class');
+                docSections[i].classList.remove('your-active-class');
         }
     });
 }
-
 function scrollTOSection(elementName){
     navbar.addEventListener('click', function(event){
         const clickedItem = document.querySelector(`[data-nav = "${event.target.textContent}"]`);
@@ -66,7 +67,7 @@ function main() {
         const navEle = document.querySelector('nav'); //gets the navbar element
 
         for(let section of docSections){
-            var listItem = document.createElement('li'); 
+            let listItem = document.createElement('li'); 
             listItem.className = 'menu__link';
             listItem.textContent = section.getAttribute('data-nav');
 
@@ -96,4 +97,4 @@ main();
 // Scroll to section on link click
 scrollTOSection();
 // Set sections as active
-findActiveElements();
+findActiveElement();
